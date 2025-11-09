@@ -98,3 +98,5 @@
 /docs/ranges-services-pa/WindowsAdminCenter.txt
 /docs/ranges-services-pa/WindowsVirtualDesktop.txt
 /docs/ranges-services-pa/WVDRelays.txt
+docker build
+docker build -t IPExtractor:1.0 .
