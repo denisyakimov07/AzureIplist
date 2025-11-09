@@ -85,10 +85,18 @@ st.markdown(
     """
 )
 
+def ip_info(pubip):
+    info = requests.get(f"http://ip-api.com/json/{pubip}")
+    print(info)
+    return info.json()
 text_input = st.text_area("Enter text containing IP addresses:")
 azure_data = load_azure_data()
 
+# st.download_button(AZURE_JSON_FILE,AZURE_JSON_FILE, mime="json")
+st.info(AZURE_JSON_FILE)
 if st.button("🔎 Extract & Check IPs"):
+
+
     if not text_input.strip():
         st.warning("Please enter some text first.")
     else:
@@ -104,4 +112,4 @@ if st.button("🔎 Extract & Check IPs"):
                     for match in results:
                         st.code(match, language="text")
                 else:
-                    st.write(f"❌ **{ip}** not found in Azure ranges.")
+                    st.write(f"❌ **{ip}** not found in Azure ranges. - {ip_info(ip)}")
