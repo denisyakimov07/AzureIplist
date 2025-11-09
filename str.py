@@ -7,7 +7,7 @@ import streamlit as st
 from typing import List, Dict, Any
 
 # --- Configuration ---
-AZURE_JSON_FILE = "ServiceTags_Public_20251028.json"
+AZURE_JSON_FILE = "ServiceTags_Public_20251103.json"
 MICROSOFT_URL = "https://www.microsoft.com/en-us/download/confirmation.aspx?id=56519"
 
 HEADERS = {
