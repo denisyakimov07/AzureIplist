@@ -82,6 +82,9 @@ st.markdown(
     """
     Paste any text below — this tool will extract all IPv4 addresses  
     and check if they belong to Azure’s public IP ranges.
+    
+    🧩 **Project Repository:**  
+    [GitHub → denisyakimov07/AzureIplist](https://github.com/denisyakimov07/AzureIplist)
     """
 )
 
@@ -94,6 +97,7 @@ azure_data = load_azure_data()
 
 # st.download_button(AZURE_JSON_FILE,AZURE_JSON_FILE, mime="json")
 st.info(AZURE_JSON_FILE)
+
 if st.button("🔎 Extract & Check IPs"):
 
 
