@@ -21,7 +21,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t denisyakimov/${{ github.event.repository.name }}:latest .
+          docker build -t denisyakimov/azureiplist:latest .
 
       - name: Push image to Docker Hub
         run: |
