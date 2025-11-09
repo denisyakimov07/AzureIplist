@@ -1,30 +1,32 @@
-# 🚀 Docker Build & Push Pipeline
+# 🔍 Azure IP Extractor
 
-This repository contains a GitHub Actions workflow that **automatically builds a Docker image** from your code and **pushes it to Docker Hub** under your account (`your_docker_hub_name`).
-
----
-
-## ⚙️ Features
-
-- ✅ Automatic Docker image build on every push to `main`
-- ✅ Pushes image to Docker Hub: `your_docker_hub_name/<repository-name>:latest`
-- ✅ Repository name automatically lowercased for valid Docker tags
-- ✅ Manual trigger supported (via “Run workflow” button in GitHub UI)
+A simple yet powerful **Streamlit web app** that extracts IPv4 addresses from any text and checks if they belong to **Microsoft Azure’s public IP ranges**.
 
 ---
 
-## 🧩 Requirements
+## 🚀 Features
 
-1. **Dockerfile** — must exist in the root directory of the repository  
-2. **Docker Hub account** — create one at [https://hub.docker.com](https://hub.docker.com)
-3. **GitHub Secrets** — add your Docker Hub credentials to the repository:
-
-   | Secret Name | Value |
-   |--------------|-------|
-   | `DOCKERHUB_USERNAME` | Your Docker Hub username (`your_docker_hub_name`) |
-   | `DOCKERHUB_TOKEN` | Docker Hub Access Token (from [Docker Hub → Account Settings → Security](https://hub.docker.com/settings/security)) |
+- 🧠 Extract all IPv4 addresses from arbitrary text input  
+- ☁️ Validate if IPs exist in Azure’s published IP ranges  
+- ⚡ Fast and cached lookups for better performance  
+- 🌍 Download or link to the latest Microsoft IP JSON file automatically  
+- 🐳 Ready-to-run **Docker** setup for easy deployment
 
 ---
-## 🧠 How It Works
 
-The workflow is defined in:
+## 🧩 Tech Stack
+
+- **Python 3.11+**
+- **Streamlit** — frontend framework  
+- **Requests** — for fetching Microsoft IP data  
+- **ipaddress / re / json** — for parsing and validation  
+- **Docker / Docker Compose** — for containerized deployment
+
+---
+
+## 📦 Installation (Local)
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/<your-username>/azure-ip-extractor.git
+   cd azure-ip-extractor
