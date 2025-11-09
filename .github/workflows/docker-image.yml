@@ -25,4 +25,4 @@ jobs:
 
       - name: Push image to Docker Hub
         run: |
-          docker push denisyakimov/${{ github.event.repository.name }}:latest
+          docker push denisyakimov/azureiplist:latest
