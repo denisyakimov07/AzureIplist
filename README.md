@@ -25,7 +25,6 @@ This repository contains a GitHub Actions workflow that **automatically builds a
    | `DOCKERHUB_TOKEN` | Docker Hub Access Token (from [Docker Hub → Account Settings → Security](https://hub.docker.com/settings/security)) |
 
 ---
-
 ## 🧠 How It Works
 
 The workflow is defined in:
