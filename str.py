@@ -1,4 +1,3 @@
-
 import json
 import re
 import requests
@@ -8,6 +7,7 @@ from typing import List, Dict, Any
 
 # --- Configuration ---
 AZURE_JSON_FILE = "ServiceTags_Public_20251103.json"
+
 MICROSOFT_URL = "https://www.microsoft.com/en-us/download/confirmation.aspx?id=56519"
 
 HEADERS = {
@@ -31,7 +31,6 @@ def load_azure_data() -> Dict[str, Any]:
         st.error(f"Azure IP list file '{AZURE_JSON_FILE}' not found.")
         st.stop()
 
-
 # --- Utility Functions ---
 def get_latest_json_url() -> str:
     """Extract latest Azure IP list JSON URL from Microsoft's confirmation page."""
@@ -39,11 +38,9 @@ def get_latest_json_url() -> str:
     match = re.search(r"https://download\.microsoft\.com/download[^\s\"']*?\.json", response.text.lower())
     return match.group(0) if match else ""
 
-
 def extract_ips_from_text(text: str) -> List[str]:
     """Return all IPv4 addresses found in text."""
     return re.findall(IPV4_REGEX, text)
-
 
 def is_valid_subnet(subnet: str) -> bool:
     """Check if string represents a valid IPv4 subnet."""
@@ -52,7 +49,6 @@ def is_valid_subnet(subnet: str) -> bool:
         return True
     except ValueError:
         return False
-
 
 def ip_in_subnet(ip_str: str, subnet_str: str) -> bool:
     """Check if an IP address belongs to a given subnet."""
@@ -72,7 +68,6 @@ def check_ip_in_azure(ip_to_check: str, data: Dict[str, Any]) -> List[str]:
             if is_valid_subnet(prefix) and ip_in_subnet(ip_to_check, prefix):
                 matches.append(f"{prefix} → {entry['id']}")
     return matches
-
 
 # --- Streamlit UI ---
 st.set_page_config(page_title="IP Extractor", layout="centered")
@@ -96,15 +91,14 @@ text_input = st.text_area("Enter text containing IP addresses:")
 azure_data = load_azure_data()
 
 # st.download_button(AZURE_JSON_FILE,AZURE_JSON_FILE, mime="json")
-st.info(AZURE_JSON_FILE)
+# st.info(f"{AZURE_JSON_FILE} - {get_latest_json_url()}")
+st.info(f"{AZURE_JSON_FILE}")
 
 if st.button("🔎 Extract & Check IPs"):
-
-
     if not text_input.strip():
         st.warning("Please enter some text first.")
     else:
-        found_ips = extract_ips_from_text(text_input)
+        found_ips = set(extract_ips_from_text(text_input))
         if not found_ips:
             st.info("No IP addresses found.")
         else:
