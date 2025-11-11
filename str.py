@@ -19,6 +19,15 @@ HEADERS = {
 }
 
 IPV4_REGEX = r"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b"
+HISTORY_CACHE = {}
+
+MARKDOWN_HI =     """
+    Paste any text below — this tool will extract all IPv4 addresses  
+    and check if they belong to Azure’s public IP ranges.
+    
+    🧩 **Project Repository:**  
+    [GitHub → denisyakimov07/AzureIplist](https://github.com/denisyakimov07/AzureIplist)
+    """
 
 # --- Load Azure IP Data ---
 @st.cache_data(show_spinner=False)
@@ -63,33 +72,30 @@ def ip_in_subnet(ip_str: str, subnet_str: str) -> bool:
     except:
         return False
 
-
-
-
-"""
-  "values": [
-   {
-     "name": "ActionGroup",
-     "id": "ActionGroup",
-     "properties": {
-       "changeNumber": 53,
-       "region": "",
-       "regionId": 0,
-       "platform": "Azure",
-       "systemService": "ActionGroup",
-       "addressPrefixes": [
-         "4.145.74.52/30",
-         "2603:1050:403:400::1f8/125"
-       ],
-       "networkFeatures": [
-         "API",
-         "NSG",
-         "UDR",
-         "FW"
-       ]
-     }
-  ]
-"""
+# """
+#   "values": [
+#    {
+#      "name": "ActionGroup",
+#      "id": "ActionGroup",
+#      "properties": {
+#        "changeNumber": 53,
+#        "region": "",
+#        "regionId": 0,
+#        "platform": "Azure",
+#        "systemService": "ActionGroup",
+#        "addressPrefixes": [
+#          "4.145.74.52/30",
+#          "2603:1050:403:400::1f8/125"
+#        ],
+#        "networkFeatures": [
+#          "API",
+#          "NSG",
+#          "UDR",
+#          "FW"
+#        ]
+#      }
+#   ]
+# """
 
 @st.cache_data(show_spinner=False)
 def check_ip_in_azure(ip_to_check: str, data: Dict[str, Any]) -> List[str]:
@@ -106,19 +112,10 @@ def check_ip_in_azure(ip_to_check: str, data: Dict[str, Any]) -> List[str]:
 st.set_page_config(page_title="IP Extractor", layout="centered")
 st.title("🔍 Azure IP Address Checker")
 
-st.markdown(
-    """
-    Paste any text below — this tool will extract all IPv4 addresses  
-    and check if they belong to Azure’s public IP ranges.
-    
-    🧩 **Project Repository:**  
-    [GitHub → denisyakimov07/AzureIplist](https://github.com/denisyakimov07/AzureIplist)
-    """
-)
+st.markdown(MARKDOWN_HI)
 
-
-def ip_info(pubip):
-    info = requests.get(f"http://ip-api.com/json/{pubip}")
+def ip_info(pub_ip):
+    info = requests.get(f"http://ip-api.com/json/{pub_ip}")
     return info.json()
 
 
@@ -139,6 +136,7 @@ if st.button("🔎 Extract & Check IPs"):
         else:
             st.success(f"Found {len(found_ips)} IP address(es):")
             for ip in found_ips:
+
                 results = check_ip_in_azure(ip, azure_data)
                 if results:
                     st.write(f"✅ **{ip}** is found in Azure ranges:")
