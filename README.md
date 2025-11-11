@@ -1,32 +1,23 @@
-# 🔍 Azure IP Extractor
+# 🔍 Search Azure IP
 
-A simple yet powerful **Streamlit web app** that extracts IPv4 addresses from any text and checks if they belong to **Microsoft Azure’s public IP ranges**.
-
+Extract IPv4 addresses from any text and checks if they belong to **Microsoft Azure’s public IP ranges**.
 ---
-
-## 🚀 Features
-
 - 🧠 Extract all IPv4 addresses from arbitrary text input  
-- ☁️ Validate if IPs exist in Azure’s published IP ranges  
-- ⚡ Fast and cached lookups for better performance  
-- 🌍 Download or link to the latest Microsoft IP JSON file automatically  
-- 🐳 Ready-to-run **Docker** setup for easy deployment
-
+- ☁️ Validate if IPs exist in Azure’s published IP ranges
 ---
-
-## 🧩 Tech Stack
-
-- **Python 3.11+**
-- **Streamlit** — frontend framework  
-- **Requests** — for fetching Microsoft IP data  
-- **ipaddress / re / json** — for parsing and validation  
-- **Docker / Docker Compose** — for containerized deployment
-
+## 🧩
+- **Python**
+- **Streamlit**
+- **Docker**
 ---
+## 📦 Installation: [DockerHUB](https://hub.docker.com/repository/docker/denisyakimov/azureiplist)
+```bash
+   docker run -d \
+  --name azure-ip-extractor \
+  -p 8501:8501 \
+  -e STREAMLIT_SERVER_HEADLESS=true \
+  -e STREAMLIT_SERVER_ENABLECORS=false \
+  -e STREAMLIT_SERVER_ENABLEXSRSFPROTECTION=false \
+  denisyakimov/azureiplist
+```
 
-## 📦 Installation (Local)
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/<your-username>/azure-ip-extractor.git
-   cd azure-ip-extractor

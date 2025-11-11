@@ -31,6 +31,7 @@ def load_azure_data() -> Dict[str, Any]:
         st.error(f"Azure IP list file '{AZURE_JSON_FILE}' not found.")
         st.stop()
 
+
 # --- Utility Functions ---
 def get_latest_json_url() -> str:
     """Extract latest Azure IP list JSON URL from Microsoft's confirmation page."""
@@ -38,9 +39,11 @@ def get_latest_json_url() -> str:
     match = re.search(r"https://download\.microsoft\.com/download[^\s\"']*?\.json", response.text.lower())
     return match.group(0) if match else ""
 
+
 def extract_ips_from_text(text: str) -> List[str]:
     """Return all IPv4 addresses found in text."""
     return re.findall(IPV4_REGEX, text)
+
 
 def is_valid_subnet(subnet: str) -> bool:
     """Check if string represents a valid IPv4 subnet."""
@@ -49,6 +52,7 @@ def is_valid_subnet(subnet: str) -> bool:
         return True
     except ValueError:
         return False
+
 
 def ip_in_subnet(ip_str: str, subnet_str: str) -> bool:
     """Check if an IP address belongs to a given subnet."""
@@ -59,15 +63,44 @@ def ip_in_subnet(ip_str: str, subnet_str: str) -> bool:
     except:
         return False
 
+
+
+
+"""
+  "values": [
+   {
+     "name": "ActionGroup",
+     "id": "ActionGroup",
+     "properties": {
+       "changeNumber": 53,
+       "region": "",
+       "regionId": 0,
+       "platform": "Azure",
+       "systemService": "ActionGroup",
+       "addressPrefixes": [
+         "4.145.74.52/30",
+         "2603:1050:403:400::1f8/125"
+       ],
+       "networkFeatures": [
+         "API",
+         "NSG",
+         "UDR",
+         "FW"
+       ]
+     }
+  ]
+"""
+
 @st.cache_data(show_spinner=False)
 def check_ip_in_azure(ip_to_check: str, data: Dict[str, Any]) -> List[str]:
     """Check whether an IP exists in the Azure IP ranges."""
     matches = []
     for entry in data.get("values", []):
-        for prefix in entry["properties"].get("addressPrefixes", []):
-            if is_valid_subnet(prefix) and ip_in_subnet(ip_to_check, prefix):
-                matches.append(f"{prefix} → {entry['id']}")
+        for subnet_from_json in entry["properties"].get("addressPrefixes", []):
+            if is_valid_subnet(subnet_from_json) and ip_in_subnet(ip_to_check, subnet_from_json):
+                matches.append(f"{subnet_from_json} → {entry['id']}")
     return matches
+
 
 # --- Streamlit UI ---
 st.set_page_config(page_title="IP Extractor", layout="centered")
@@ -83,10 +116,12 @@ st.markdown(
     """
 )
 
+
 def ip_info(pubip):
     info = requests.get(f"http://ip-api.com/json/{pubip}")
-    print(info)
     return info.json()
+
+
 text_input = st.text_area("Enter text containing IP addresses:")
 azure_data = load_azure_data()
 
