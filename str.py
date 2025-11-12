@@ -18,10 +18,11 @@ HEADERS = {
     )
 }
 
-IPV4_REGEX = r"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b"
+# IPV4_REGEX = r"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b"
+IPV4_REGEX = r"\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b"
 HISTORY_CACHE = {}
 
-MARKDOWN_HI =     """
+MARKDOWN_HI = """
     Paste any text below — this tool will extract all IPv4 addresses  
     and check if they belong to Azure’s public IP ranges.
     
@@ -136,7 +137,6 @@ if st.button("🔎 Extract & Check IPs"):
         else:
             st.success(f"Found {len(found_ips)} IP address(es):")
             for ip in found_ips:
-
                 results = check_ip_in_azure(ip, azure_data)
                 if results:
                     st.write(f"✅ **{ip}** is found in Azure ranges:")
