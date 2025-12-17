@@ -30,6 +30,7 @@ MARKDOWN_HI = """
     [GitHub → denisyakimov07/AzureIplist](https://github.com/denisyakimov07/AzureIplist)
     """
 
+
 # --- Load Azure IP Data ---
 @st.cache_data(show_spinner=False)
 def load_azure_data() -> Dict[str, Any]:
@@ -73,6 +74,7 @@ def ip_in_subnet(ip_str: str, subnet_str: str) -> bool:
     except:
         return False
 
+
 # """
 #   "values": [
 #    {
@@ -114,6 +116,7 @@ st.set_page_config(page_title="IP Extractor", layout="centered")
 st.title("🔍 Azure IP Address Checker")
 
 st.markdown(MARKDOWN_HI)
+
 
 def ip_info(pub_ip):
     info = requests.get(f"http://ip-api.com/json/{pub_ip}")
