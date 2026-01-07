@@ -5,18 +5,11 @@ import ipaddress
 import streamlit as st
 from typing import List, Dict, Any
 
+from os import listdir
+from os.path import isfile, join
+
 # --- Configuration ---
-AZURE_JSON_FILE = "ServiceTags_Public_20251229.json"
-
-MICROSOFT_URL = "https://www.microsoft.com/en-us/download/confirmation.aspx?id=56519"
-
-HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/58.0.3029.110 Safari/537.3"
-    )
-}
+AZURE_JSON_FILE = [f for f in listdir("./ip_data/") if isfile(join("./ip_data/", f))][0]
 
 IPV4_REGEX = r"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b"
 #IPV4_REGEX = r"\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b"
@@ -41,15 +34,6 @@ def load_azure_data() -> Dict[str, Any]:
     except FileNotFoundError:
         st.error(f"Azure IP list file '{AZURE_JSON_FILE}' not found.")
         st.stop()
-
-
-# --- Utility Functions ---
-def get_latest_json_url() -> str:
-    """Extract latest Azure IP list JSON URL from Microsoft's confirmation page."""
-    response = requests.get(MICROSOFT_URL, headers=HEADERS, timeout=10)
-    match = re.search(r"https://download\.microsoft\.com/download[^\s\"']*?\.json", response.text.lower())
-    return match.group(0) if match else ""
-
 
 def extract_ips_from_text(text: str) -> List[str]:
     """Return all IPv4 addresses found in text."""
