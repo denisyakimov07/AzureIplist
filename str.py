@@ -36,7 +36,7 @@ MARKDOWN_HI = """
 def load_azure_data() -> Dict[str, Any]:
     """Load Azure IP ranges JSON from file."""
     try:
-        with open(AZURE_JSON_FILE, "r") as file:
+        with open(f"ip_data/{AZURE_JSON_FILE}", "r") as file:
             return json.load(file)
     except FileNotFoundError:
         st.error(f"Azure IP list file '{AZURE_JSON_FILE}' not found.")
