@@ -41,14 +41,14 @@ def remove_file(file_list, path):
 while True:
     try:
         data = get_latest_json_url()
-        only_files = [f for f in listdir("./ip_data/") if isfile(join("./ip_data/", f))]
+        only_files = [f for f in listdir("../ip_data/") if isfile(join("../ip_data/", f))]
         print(data)
         print(only_files)
         if data["file_name"] not in only_files:
             file_download = requests.get(data["url"], headers=HEADERS, timeout=10)
             open(f'./ip_data/{data["file_name"]}', "wb").write(file_download.content)
             print(f'File saved to ip_data/{data["file_name"]}')
-            remove_file(only_files, "ip_data")
+            remove_file(only_files, "../ip_data")
 
         else:
             print(f"file {data['file_name']} in {only_files} sleep time 60 min.")
